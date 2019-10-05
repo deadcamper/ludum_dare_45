@@ -1,13 +1,12 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(ActionButtonHookup))]
 public class ActionButton : MonoBehaviour
 {
     public Button button;
 
     public GameFeatureController controller;
-
-    public Transform actionArea;
 
     public ActionBehavior actionToRunPrefab;
 
@@ -19,7 +18,7 @@ public class ActionButton : MonoBehaviour
 
     private void Activate()
     {
-        ActionBehavior action = Instantiate(actionToRunPrefab, actionArea);
+        ActionBehavior action = Instantiate(actionToRunPrefab, controller.actionArea);
         action.SetUp(controller, controller.level);
 
         controller.OnActionButtonStart(this);
