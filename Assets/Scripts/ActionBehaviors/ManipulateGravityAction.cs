@@ -5,7 +5,7 @@ public class ManipulateGravityAction : ActionBehavior
 
     public float gravityConstant = 1f;
 
-    public void Update()
+    protected override void OnActiveUpdate()
     {
         Rigidbody2D[] bodies = level.GetComponentsInChildren<Rigidbody2D>();
 

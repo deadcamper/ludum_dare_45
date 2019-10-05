@@ -8,7 +8,7 @@ public class SpawnGameObjectAction : ActionBehavior
     private GameObject ghostObject;
     private GameObject newObject;
 
-    public void Update()
+    protected override void OnActiveUpdate()
     {
         if (Input.GetMouseButtonUp(0))
         {

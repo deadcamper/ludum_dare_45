@@ -3,6 +3,8 @@ using UnityEngine;
 
 public abstract class ActionBehavior : MonoBehaviour
 {
+    public bool isActiveAction = false;
+
     public event Action<UnityEngine.Object> OnFinished = delegate { };
     public event Action OnCancelled = delegate { };
 
@@ -18,7 +20,19 @@ public abstract class ActionBehavior : MonoBehaviour
 
         OnFinished += controller.OnActionFinished;
         OnCancelled += controller.OnActionCanceled;
+
+        isActiveAction = true;
     }
+
+    private void Update()
+    {
+        if (isActiveAction)
+        {
+            OnActiveUpdate();
+        }
+    }
+
+    protected abstract void OnActiveUpdate();
 
     public void LateUpdate()
     {
@@ -30,14 +44,16 @@ public abstract class ActionBehavior : MonoBehaviour
 
     protected void Finished(UnityEngine.Object obj)
     {
+        isActiveAction = false;
+
         OnFinished(obj);
-        Destroy(gameObject);
     }
 
     protected void Cancelled()
     {
+        isActiveAction = false;
+
         CleanUpOnCancel();
-        Destroy(gameObject);
 
         OnCancelled();
     }
@@ -61,6 +77,7 @@ public abstract class ActionBehavior : MonoBehaviour
         Rigidbody2D rb = gameObject.GetComponent<Rigidbody2D>();
         if (rb)
         {
+            rb.drag = 5;
             rb.gravityScale = GRAVITY_CONSTANT;
             rb.useAutoMass = true;
         }

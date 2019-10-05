@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 84041120425392096}
   - component: {fileID: 84041120425392097}
   - component: {fileID: 84041120425392102}
-  - component: {fileID: 4956763295464234275}
+  - component: {fileID: -4397405924429778375}
   m_Layer: 0
   m_Name: Win
   m_TagString: Untagged
@@ -93,8 +93,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9f82157577734480b68a5efb19b5ddc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!58 &4956763295464234275
-CircleCollider2D:
+--- !u!61 &-4397405924429778375
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -107,8 +107,18 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!1 &84041121036262045
 GameObject:
   m_ObjectHideFlags: 0

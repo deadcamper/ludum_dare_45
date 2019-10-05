@@ -9,13 +9,18 @@ public class ActionButtonHookup : MonoBehaviour
     {
         if (!Application.isPlaying)
         {
-            if (transform.parent != null)
+            if (gameObject.scene.name != null)
             {
                 ActionButton action = GetComponent<ActionButton>();
 
                 if (!action.controller)
                 {
-                    action.controller = FindObjectOfType<GameFeatureController>();
+                    GameFeatureController controller = FindObjectOfType<GameFeatureController>();
+
+                    if (controller && gameObject.scene.name == controller.gameObject.scene.name)
+                    {
+                        action.controller = FindObjectOfType<GameFeatureController>();
+                    }
                 }
 
                 if (!action.button)

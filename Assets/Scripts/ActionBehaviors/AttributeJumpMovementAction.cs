@@ -4,7 +4,7 @@ public class AttributeJumpMovementAction : ActionBehavior
 {
     GameObject hoverObject;
 
-    public void Update()
+    protected override void OnActiveUpdate()
     {
         if (Input.GetMouseButtonDown(0))
         {
