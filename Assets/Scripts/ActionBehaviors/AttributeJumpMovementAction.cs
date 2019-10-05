@@ -13,7 +13,7 @@ public class AttributeJumpMovementAction : ActionBehavior
                 EnsureRigidbody2DComponent(hoverObject);
 
                 JumpMovement jump = hoverObject.AddComponent<JumpMovement>();
-                jump.speed = 10;
+                jump.speed = 20;
 
                 Finished(jump);
             }

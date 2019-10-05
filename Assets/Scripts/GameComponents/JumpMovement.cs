@@ -33,7 +33,7 @@ public class JumpMovement : MonoBehaviour
         }
     }
 
-    void OnCollisionStay2D(Collision2D col2D)
+    void OnCollisionEnter2D(Collision2D col2D)
     {
         if (!canJump)
         {

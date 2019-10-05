@@ -43,6 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1377cea58d2d46a6810905d27b100ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isActiveAction: 0
   controller: {fileID: 0}
   level: {fileID: 0}
-  gravityConstant: 3
+  gravityConstant: 5

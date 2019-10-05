@@ -64,7 +64,7 @@ public abstract class ActionBehavior : MonoBehaviour
         if (rb == null)
         {
             rb = gameObject.AddComponent<Rigidbody2D>();
-            rb.drag = 5;
+            rb.drag = 10;
             rb.gravityScale = GRAVITY_CONSTANT;
             rb.useAutoMass = true;
         }
@@ -77,7 +77,7 @@ public abstract class ActionBehavior : MonoBehaviour
         Rigidbody2D rb = gameObject.GetComponent<Rigidbody2D>();
         if (rb)
         {
-            rb.drag = 5;
+            rb.drag = 10;
             rb.gravityScale = GRAVITY_CONSTANT;
             rb.useAutoMass = true;
         }
