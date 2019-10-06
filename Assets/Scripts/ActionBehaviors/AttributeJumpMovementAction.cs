@@ -2,6 +2,11 @@
 
 public class AttributeJumpMovementAction : ActionBehavior
 {
+    public override string InstructionText
+    {
+        get { return "Click on an object to allow it to jump with 'Space'"; }
+    }
+
     GameObject hoverObject;
 
     protected override void OnActiveUpdate()

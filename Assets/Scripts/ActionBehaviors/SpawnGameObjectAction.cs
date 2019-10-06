@@ -10,6 +10,11 @@ public class SpawnGameObjectAction : ActionBehavior
 
     private bool unlockSpawn;
 
+    public override string InstructionText
+    {
+        get { return "Hold Left Mouse Button to rotate, then release button to place."; }
+    }
+
     protected override void OnSetUp()
     {
         unlockSpawn = false;

@@ -19,7 +19,7 @@ public class EndingSceneCoroutine : MonoBehaviour
 
         messages.SetMainText("Well...");
 
-        yield return new WaitForSeconds(0.75f);
+        yield return new WaitForSeconds(1f);
 
         messages.AppendMainText(" you did it.");
 
@@ -34,11 +34,14 @@ public class EndingSceneCoroutine : MonoBehaviour
         int minutes = seconds / 60;
         int exSeconds = seconds % 60;
 
-        messages.SetMainText(string.Format("And it only took you {0} minutes and {1} seconds\nto finish.", minutes, exSeconds));
+        string pluralMinute = minutes == 1 ? "minute" : "minutes";
+        string pluralSeconds = seconds == 1 ? "second" : "seconds";
+
+        messages.SetMainText(string.Format("And it only took you {0} {2} and {1} {3}\nto finish it.", minutes, exSeconds, pluralMinute, pluralSeconds));
 
         yield return new WaitForSeconds(5f);
 
-        messages.SetMainText(string.Format("Would you like to try it again?"));
+        messages.SetMainText(string.Format("Would you like to play again?"));
 
         yield return new WaitForSeconds(3f);
 

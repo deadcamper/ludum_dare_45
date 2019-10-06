@@ -5,27 +5,28 @@ using UnityEngine.UI;
 
 public class GameFeatureController : MonoBehaviour
 {
-
     public Transform level;
-
-    private int maxGridSpace = 1;
-
-    public int numberOfFeaturesUsed = 0;
 
     public GridLayoutGroup buttonGrid;
 
     public Transform buttonPoolArea;
 
-    public TMPro.TextMeshProUGUI messageText;
-
     public ParticleSystem spawnParticle;
 
     private ActionButton selectedButton = null;
 
+    public MessageBoard messageBoard;
+
     public List<Transform> buttonTiers;
     public List<int> buttonTierUnlocks; // How many spawned pieces to the next template
 
+    public Transform dangerTier;
+
     private bool isButtonGridLocked = false;
+
+    private int maxGridSpace = 1;
+
+    public int numberOfFeaturesUsed = 0;
 
     private int currentTier = -1;
 
@@ -36,8 +37,7 @@ public class GameFeatureController : MonoBehaviour
 
         if (buttonTiers.Count != 0)
         {
-            TierCheck();
-            StartCoroutine(PerpetualButtons());
+            CheckButtons();
         }
 
         ActionBehavior.SetUpClass();
@@ -62,13 +62,14 @@ public class GameFeatureController : MonoBehaviour
             // Special case logic
             switch(currentTier)
             {
-                case 0:
-                    buttonGrid.constraintCount = 2;
-                    maxGridSpace = 4;
+                case 1:
+                    maxGridSpace = 2;
                     break;
                 case 2:
-                    buttonGrid.constraintCount = 3;
-                    maxGridSpace = 6;
+                    maxGridSpace = 3;
+                    break;
+                case 3:
+                    maxGridSpace = 4;
                     break;
             }
         }
@@ -88,11 +89,15 @@ public class GameFeatureController : MonoBehaviour
     {
         SetInteractableButtons(false);
         selectedButton = button;
+
+        messageBoard.SetInstructionText(button.actionRunning.InstructionText, "You can cancel out at any time with 'Escape'");
     }
 
     public void OnActionCanceled()
     {
         SetInteractableButtons(true);
+
+        messageBoard.ClearInstructionText();
     }
 
     public void OnActionFinished(Object obj)
@@ -121,19 +126,41 @@ public class GameFeatureController : MonoBehaviour
             clone.gameObject.SetActive(true);
         }
 
+        messageBoard.ClearInstructionText();
+
         numberOfFeaturesUsed++;
-        TierCheck();
-        StartCoroutine(PerpetualButtons());
+        CheckButtons();
     }
 
-    public IEnumerator PerpetualButtons()
+    private void CheckButtons()
+    {
+        StopCoroutine("ShiftButtons");
+        TierCheck();
+        StartCoroutine("ShiftButtons");
+    }
+
+    public IEnumerator ShiftButtons()
     {
         yield return new WaitForSeconds(0.5f);
 
-        while (maxGridSpace > buttonGrid.transform.childCount)
+        while (buttonPoolArea && maxGridSpace > buttonGrid.transform.childCount)
         {
             yield return new WaitForSeconds(0.25f);
+
+            // Desperate times call for desperate measures
             int poolCount = buttonPoolArea.transform.childCount;
+            if (poolCount == 0 && buttonGrid.transform.childCount == 0)
+            {
+                if (dangerTier)
+                {
+                    foreach (ActionButton buttonTemplate in dangerTier.GetComponentsInChildren<ActionButton>())
+                    {
+                        ActionButton newButton = Instantiate(buttonTemplate, buttonPoolArea);
+                    }
+                    dangerTier = null;
+                }
+            }
+
             if (poolCount > 0)
             {
                 ActionButton button = buttonPoolArea.GetChild(Random.Range(0, poolCount)).GetComponent<ActionButton>();

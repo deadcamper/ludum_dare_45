@@ -2,6 +2,10 @@
 
 public class ManipulateGravityAction : ActionBehavior
 {
+    public override string InstructionText
+    {
+        get { return ""; } //Auto-applies on click
+    }
 
     public float gravityConstant = 1f;
 

@@ -49,6 +49,9 @@ public class Game : MonoBehaviour
 
     IEnumerator ImaWinner()
     {
+        featureController.gameObject.SetActive(false);
+        featureController.buttonGrid.gameObject.SetActive(false);
+
         finalColor = new Color(1, 1, 0.9f, 1);
 
         yield return CoverOver();
@@ -63,6 +66,7 @@ public class Game : MonoBehaviour
     IEnumerator ImaLoser()
     {
         featureController.gameObject.SetActive(false);
+        featureController.buttonGrid.gameObject.SetActive(false);
 
         messageBoard.SetMainText("Ooops...\nThe player isn't supposed to leave the screen...");
 

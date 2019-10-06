@@ -13,6 +13,8 @@ public abstract class ActionBehavior : MonoBehaviour
 
     public static float GRAVITY_CONSTANT = 0f;
 
+    public abstract string InstructionText { get; }
+
     public static void SetUpClass()
     {
         GRAVITY_CONSTANT = 0f;
@@ -48,9 +50,12 @@ public abstract class ActionBehavior : MonoBehaviour
 
     public void LateUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Backspace))
+        if (isActiveAction)
         {
-            Cancelled();
+            if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Backspace))
+            {
+                Cancelled();
+            }
         }
     }
 

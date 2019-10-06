@@ -12,6 +12,9 @@ public class ActionButton : MonoBehaviour
     [FormerlySerializedAs("actionToRunPrefab")]
     public ActionBehavior actionToRun;
 
+    [HideInInspector]
+    public ActionBehavior actionRunning;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -20,17 +23,17 @@ public class ActionButton : MonoBehaviour
 
     private void Activate()
     {
-        ActionBehavior action;
         if (actionToRun.transform != transform)
         {
-            action = Instantiate(actionToRun, controller.transform);
+            Debug.Log("Action To Run is not on the button...");
+            actionRunning = Instantiate(actionToRun, controller.transform);
         }
         else
         {
-            action = actionToRun;
+            actionRunning = actionToRun;
         }
 
-        action.SetUp(controller, controller.level);
+        actionRunning.SetUp(controller, controller.level);
         controller.OnActionButtonStart(this);
     }
 }
