@@ -23,7 +23,7 @@ public class ActionButton : MonoBehaviour
         ActionBehavior action;
         if (actionToRun.transform != transform)
         {
-            action = Instantiate(actionToRun, controller.actionArea);
+            action = Instantiate(actionToRun, controller.transform);
         }
         else
         {

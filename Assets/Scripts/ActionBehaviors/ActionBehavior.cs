@@ -13,6 +13,11 @@ public abstract class ActionBehavior : MonoBehaviour
 
     public static float GRAVITY_CONSTANT = 0f;
 
+    public static void SetUpClass()
+    {
+        GRAVITY_CONSTANT = 0f;
+    }
+
     public void SetUp(GameFeatureController controller, Transform level)
     {
         this.controller = controller;

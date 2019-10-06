@@ -18,8 +18,6 @@ public class GameFeatureController : MonoBehaviour
 
     public TMPro.TextMeshProUGUI messageText;
 
-    public Transform actionArea;
-
     public ParticleSystem spawnParticle;
 
     private ActionButton selectedButton = null;
@@ -36,8 +34,13 @@ public class GameFeatureController : MonoBehaviour
         if (buttonTiers.Count != buttonTierUnlocks.Count)
             throw new System.Exception("Tier Counts don't match!!");
 
-        TierCheck();
-        StartCoroutine(PerpetualButtons());
+        if (buttonTiers.Count != 0)
+        {
+            TierCheck();
+            StartCoroutine(PerpetualButtons());
+        }
+
+        ActionBehavior.SetUpClass();
     }
 
     private void TierCheck()
@@ -120,26 +123,27 @@ public class GameFeatureController : MonoBehaviour
 
         numberOfFeaturesUsed++;
         TierCheck();
+        StartCoroutine(PerpetualButtons());
     }
 
     public IEnumerator PerpetualButtons()
     {
-        yield return null;
+        yield return new WaitForSeconds(0.5f);
 
-        while (true)
+        while (maxGridSpace > buttonGrid.transform.childCount)
         {
-            int numOfButtons = buttonGrid.transform.childCount;
-            if (numOfButtons < maxGridSpace)
+            yield return new WaitForSeconds(0.25f);
+            int poolCount = buttonPoolArea.transform.childCount;
+            if (poolCount > 0)
             {
-                int poolCount = buttonPoolArea.transform.childCount;
-                if (poolCount > 0)
-                {
-                    ActionButton button = buttonPoolArea.GetChild(Random.Range(0, poolCount)).GetComponent<ActionButton>();
-                    button.transform.SetParent(buttonGrid.transform);
-                    button.button.interactable = !isButtonGridLocked;
-                }
+                ActionButton button = buttonPoolArea.GetChild(Random.Range(0, poolCount)).GetComponent<ActionButton>();
+                button.transform.SetParent(buttonGrid.transform);
+                button.button.interactable = !isButtonGridLocked;
             }
-            yield return new WaitForSeconds(0.5f);
+            else
+            {
+                break;
+            }
         }
     }
 }
