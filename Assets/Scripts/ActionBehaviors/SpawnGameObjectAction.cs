@@ -8,6 +8,8 @@ public class SpawnGameObjectAction : ActionBehavior
     private GameObject ghostObject;
     private GameObject newObject;
 
+    public bool isBigObject;
+
     private bool unlockSpawn;
 
     public override string InstructionText
@@ -32,6 +34,15 @@ public class SpawnGameObjectAction : ActionBehavior
 
             if (ghostObject)
                 Destroy(ghostObject);
+
+            if (isBigObject)
+            {
+                SoundBoard.Instance?.spawnObjectLarge?.Play();
+            }
+            else
+            {
+                SoundBoard.Instance?.spawnObjectSmall?.Play();
+            }
 
             Finished(newObject);
         }

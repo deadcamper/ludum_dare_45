@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class GameFeatureController : MonoBehaviour
 {
+
     public Transform level;
 
     public GridLayoutGroup buttonGrid;
@@ -147,8 +148,9 @@ public class GameFeatureController : MonoBehaviour
         {
             yield return new WaitForSeconds(0.25f);
 
-            // Desperate times call for desperate measures
             int poolCount = buttonPoolArea.transform.childCount;
+
+            // Desperate times call for desperate measures
             if (poolCount == 0 && buttonGrid.transform.childCount == 0)
             {
                 if (dangerTier)
@@ -158,6 +160,7 @@ public class GameFeatureController : MonoBehaviour
                         ActionButton newButton = Instantiate(buttonTemplate, buttonPoolArea);
                     }
                     dangerTier = null;
+                    poolCount = buttonPoolArea.transform.childCount;
                 }
             }
 

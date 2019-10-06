@@ -43,6 +43,8 @@ public class MessageBoard : MonoBehaviour
                 {
                     int length = currentText.Length;
                     currentText = mainText.Substring(0, length + 1);
+
+                    SoundBoard.Instance?.textType?.Play();
                 }
                 mainCenterText.text = currentText;
                 for (int n = 0; n < framesBetweenTyping; n++)

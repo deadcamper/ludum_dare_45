@@ -20,6 +20,7 @@ public class AttributeJumpMovementAction : ActionBehavior
                 JumpMovement jump = hoverObject.AddComponent<JumpMovement>();
                 jump.speed = 20;
 
+                SoundBoard.Instance?.addAttribute?.Play();
                 Finished(jump);
             }
         }

@@ -35,5 +35,12 @@ public class ActionButton : MonoBehaviour
 
         actionRunning.SetUp(controller, controller.level);
         controller.OnActionButtonStart(this);
+
+        ClickSound();
+    }
+
+    private void ClickSound()
+    {
+        SoundBoard.Instance?.buttonClick?.Play();
     }
 }

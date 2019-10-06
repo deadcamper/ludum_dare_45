@@ -19,6 +19,7 @@ public class AttributeWASDMovementAction : ActionBehavior
 
                 WASDMovement move = hoverObject.AddComponent<WASDMovement>();
 
+                SoundBoard.Instance?.addAttribute?.Play();
                 Finished(move);
             }
         }
