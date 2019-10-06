@@ -8,11 +8,17 @@ public class SpawnGameObjectAction : ActionBehavior
     private GameObject ghostObject;
     private GameObject newObject;
 
+    private bool unlockSpawn;
+
+    protected override void OnSetUp()
+    {
+        unlockSpawn = false;
+    }
+
     protected override void OnActiveUpdate()
     {
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(0) && unlockSpawn)
         {
-
             Vector3 position = ghostObject ? ghostObject.transform.position : Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10));
             Quaternion rotation = ghostObject ? ghostObject.transform.rotation : Quaternion.identity;
 
@@ -24,8 +30,13 @@ public class SpawnGameObjectAction : ActionBehavior
 
             Finished(newObject);
         }
-        else if (Input.GetMouseButton(0))
+        else if (Input.GetMouseButton(0) || Input.GetMouseButtonDown(0))
         {
+            if (Input.GetMouseButtonDown(0))
+            {
+                unlockSpawn = true;
+            }
+
             if (!ghostObject)
             {
                 return;
@@ -40,6 +51,7 @@ public class SpawnGameObjectAction : ActionBehavior
                 float rotationZ = Mathf.Atan2(difference.y, difference.x) * Mathf.Rad2Deg;
                 ghostObject.transform.rotation = Quaternion.Euler(0.0f, 0.0f, rotationZ - 90);
             }
+
         }
         else if (ghostObject)
         {

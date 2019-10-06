@@ -22,6 +22,13 @@ public abstract class ActionBehavior : MonoBehaviour
         OnCancelled += controller.OnActionCanceled;
 
         isActiveAction = true;
+
+        OnSetUp();
+    }
+
+    protected virtual void OnSetUp()
+    {
+
     }
 
     private void Update()

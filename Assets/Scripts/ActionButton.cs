@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(ActionButtonHookup))]
@@ -8,7 +9,8 @@ public class ActionButton : MonoBehaviour
 
     public GameFeatureController controller;
 
-    public ActionBehavior actionToRunPrefab;
+    [FormerlySerializedAs("actionToRunPrefab")]
+    public ActionBehavior actionToRun;
 
     // Start is called before the first frame update
     void Start()
@@ -18,9 +20,17 @@ public class ActionButton : MonoBehaviour
 
     private void Activate()
     {
-        ActionBehavior action = Instantiate(actionToRunPrefab, controller.actionArea);
-        action.SetUp(controller, controller.level);
+        ActionBehavior action;
+        if (actionToRun.transform != transform)
+        {
+            action = Instantiate(actionToRun, controller.actionArea);
+        }
+        else
+        {
+            action = actionToRun;
+        }
 
+        action.SetUp(controller, controller.level);
         controller.OnActionButtonStart(this);
     }
 }

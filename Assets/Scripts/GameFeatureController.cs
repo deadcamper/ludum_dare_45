@@ -8,11 +8,13 @@ public class GameFeatureController : MonoBehaviour
 
     public Transform level;
 
-    public int maxGridSpace = 6;
+    private int maxGridSpace = 1;
 
     public int numberOfFeaturesUsed = 0;
 
     public GridLayoutGroup buttonGrid;
+
+    public Transform buttonPoolArea;
 
     public TMPro.TextMeshProUGUI messageText;
 
@@ -22,25 +24,49 @@ public class GameFeatureController : MonoBehaviour
 
     private ActionButton selectedButton = null;
 
-    public List<Transform> buttonTemplateTiers;
+    public List<Transform> buttonTiers;
+    public List<int> buttonTierUnlocks; // How many spawned pieces to the next template
 
-    private List<ActionButton> buttonTemplates = new List<ActionButton>();
+    private bool isButtonGridLocked = false;
+
+    private int currentTier = -1;
 
     private void Start()
     {
+        if (buttonTiers.Count != buttonTierUnlocks.Count)
+            throw new System.Exception("Tier Counts don't match!!");
+
         TierCheck();
         StartCoroutine(PerpetualButtons());
     }
 
     private void TierCheck()
     {
-        if (numberOfFeaturesUsed % 6 == 0)
+        if (currentTier + 1 >= buttonTierUnlocks.Count)
+            return; // No more unlocks
+
+        if (numberOfFeaturesUsed >= buttonTierUnlocks[currentTier + 1])
         {
-            int nextTier = numberOfFeaturesUsed / 6;
-            if (buttonTemplateTiers.Count > nextTier)
+            currentTier++;
+
+            ActionButton[] buttonTemplates = buttonTiers[currentTier].gameObject.GetComponentsInChildren<ActionButton>();
+
+            foreach (ActionButton buttonTemplate in buttonTemplates)
             {
-                ActionButton[] buttons = buttonTemplateTiers[nextTier].gameObject.GetComponentsInChildren<ActionButton>();
-                buttonTemplates.AddRange(buttons);
+                ActionButton newButton = Instantiate(buttonTemplate, buttonPoolArea);
+            }
+
+            // Special case logic
+            switch(currentTier)
+            {
+                case 0:
+                    buttonGrid.constraintCount = 2;
+                    maxGridSpace = 4;
+                    break;
+                case 2:
+                    buttonGrid.constraintCount = 3;
+                    maxGridSpace = 6;
+                    break;
             }
         }
     }
@@ -52,6 +78,7 @@ public class GameFeatureController : MonoBehaviour
         {
             butt.interactable = canInteract;
         }
+        isButtonGridLocked = !canInteract;
     }
 
     public void OnActionButtonStart(ActionButton button)
@@ -102,14 +129,17 @@ public class GameFeatureController : MonoBehaviour
         while (true)
         {
             int numOfButtons = buttonGrid.transform.childCount;
-            while (numOfButtons < maxGridSpace)
+            if (numOfButtons < maxGridSpace)
             {
-                yield return new WaitForSeconds(1.5f);
-                ActionButton buttonTemplate = buttonTemplates[Random.Range(0, buttonTemplates.Count)];
-                Instantiate(buttonTemplate, buttonGrid.transform);
-                numOfButtons = buttonGrid.transform.childCount;
+                int poolCount = buttonPoolArea.transform.childCount;
+                if (poolCount > 0)
+                {
+                    ActionButton button = buttonPoolArea.GetChild(Random.Range(0, poolCount)).GetComponent<ActionButton>();
+                    button.transform.SetParent(buttonGrid.transform);
+                    button.button.interactable = !isButtonGridLocked;
+                }
             }
-            yield return null;
+            yield return new WaitForSeconds(0.5f);
         }
     }
 }

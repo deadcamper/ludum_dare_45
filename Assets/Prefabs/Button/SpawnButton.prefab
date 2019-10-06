@@ -115,7 +115,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 876959248008409951}
   m_OnClick:
     m_PersistentCalls:
@@ -134,7 +134,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 876959248008409944}
   controller: {fileID: 0}
-  actionToRunPrefab: {fileID: 0}
+  actionToRun: {fileID: 0}
 --- !u!114 &1537965585175490062
 MonoBehaviour:
   m_ObjectHideFlags: 0
